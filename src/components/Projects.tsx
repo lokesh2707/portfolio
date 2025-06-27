@@ -8,8 +8,8 @@ const Projects = () => {
       description: 'Full-stack e-commerce solution with React, Node.js, and Stripe integration. Features include user authentication, product management, and payment processing.',
       image: 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=800',
       technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+      liveUrl: 'https://e-commerce-murex-sigma.vercel.app/',
       githubUrl: 'https://github.com/lokesh2707/E-Commerce',
-      Live Demo: 'https://e-commerce-murex-sigma.vercel.app/',
       date: '2024',
     },
     {
