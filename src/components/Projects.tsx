@@ -9,6 +9,7 @@ const Projects = () => {
       image: 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=800',
       technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
       githubUrl: 'https://github.com/lokesh2707/E-Commerce',
+      Live Demo: 'https://e-commerce-murex-sigma.vercel.app/',
       date: '2024',
     },
     {
