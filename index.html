@@ -1,29 +1,47 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lokesh Prasanth - Front-End Developer & Designer</title>
-    <meta name="description" content="Professional portfolio of Lokesh Prasanth, a Front-End Developer & Designer specializing in modern web applications and user experiences." />
-    <style>
-      @keyframes fade-in-up {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
+    <meta name="theme-color" content="#0f1216" />
+    <meta name="description" content="Lokesh Prasanth is a Full Stack Developer at Ratnam Solutions Private Limited building scalable, high-performance web applications and thoughtful digital products." />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Canonical URL placeholder: Replace with production custom domain once deployed -->
+    <link rel="canonical" href="https://example.com/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Lokesh Prasanth — Full Stack Developer" />
+    <meta property="og:description" content="Thoughtful digital products, from expressive interfaces to the systems that power them." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/screenshots/desktop-dark-hero.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Lokesh Prasanth — Full Stack Developer" />
+    <meta name="twitter:description" content="Thoughtful digital products, from expressive interfaces to the systems that power them." />
+    <meta name="twitter:image" content="/screenshots/desktop-dark-hero.png" />
+    <title>Lokesh Prasanth — Full Stack Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet" />
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('portfolio-theme');
+          var theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+          document.documentElement.dataset.theme = theme;
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {
+          document.documentElement.dataset.theme = 'dark';
+          document.documentElement.classList.add('dark');
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .animate-fade-in-up {
-        animation: fade-in-up 1s ease-out;
-      }
-    </style>
+      })();
+    </script>
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body>
 </html>

@@ -1,87 +1,142 @@
-import React from 'react';
-import { Code, Palette, Zap, Users } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import GraduationCard from './about/GraduationCard';
+import DeveloperCard from './about/DeveloperCard';
+import JourneyCard from './about/JourneyCard';
+import TimelineCard from './about/TimelineCard';
 
-const About = () => {
-  const highlights = [
-    {
-      icon: <Code className="text-blue-600" size={32} />,
-      title: 'Clean Code',
-      description: 'Writing maintainable, scalable code with best practices and modern standards.',
-    },
-    {
-      icon: <Palette className="text-purple-600" size={32} />,
-      title: 'Design Focus',
-      description: 'Creating beautiful, intuitive interfaces that users love to interact with.',
-    },
-    {
-      icon: <Zap className="text-yellow-600" size={32} />,
-      title: 'Performance',
-      description: 'Optimizing applications for speed, accessibility, and user experience.',
-    },
-    {
-      icon: <Users className="text-green-600" size={32} />,
-      title: 'Collaboration',
-      description: 'Working effectively with teams to deliver projects on time and budget.',
-    },
-  ];
+gsap.registerPlugin(ScrollTrigger);
+
+export default function About() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      const isMobile = window.innerWidth < 640;
+      const yDelta = isMobile ? 18 : 28;
+
+      // 1. Heading Reveal
+      gsap.fromTo(
+        '.about-heading',
+        { opacity: 0, y: yDelta },
+        {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 85%',
+            once: true,
+          },
+          opacity: 1,
+          y: 0,
+          duration: 0.65,
+          ease: 'power3.out',
+        }
+      );
+
+      // 2. Narrative Intro & Link Reveal
+      gsap.fromTo(
+        '.about-narrative',
+        { opacity: 0, y: yDelta - 8 },
+        {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 82%',
+            once: true,
+          },
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          delay: 0.08,
+          ease: 'power3.out',
+        }
+      );
+
+      // 3. Staggered Entrance for Info Cards
+      gsap.fromTo(
+        '.about-card',
+        { opacity: 0, y: yDelta },
+        {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 88%',
+            once: true,
+          },
+          opacity: 1,
+          y: 0,
+          stagger: 0.08,
+          duration: 0.55,
+          ease: 'power3.out',
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section id="about" className="py-20 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
-            About Me
-          </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            I’m a Computer Science student passionate about full stack development and problem-solving. I’ve built real-time web projects using JavaScript, Java, and MongoDB, and consistently improve my skills through hands-on practice.
-          </p>
+    <section
+      ref={sectionRef}
+      id="about"
+      className="py-20 lg:py-24 border-t border-[var(--border)] overflow-hidden"
+    >
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        {/* Section Eyebrow */}
+        <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[var(--text-muted)] mb-10">
+          <span className="w-5 h-[2px] bg-[#B7F52B] rounded-full" />
+          <span>ABOUT ME</span>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <p className="text-lg text-slate-700 leading-relaxed">
-              I am Lokesh Prasanth, a passionate and motivated Computer Science & Engineering student at Aditya Engineering College.
-               With a solid academic background and hands-on experience from internships and personal projects, 
-               I’ve developed strong skills in web development, full stack Java, and problem-solving.
-            </p>
-            <p className="text-lg text-slate-700 leading-relaxed">
-              Over the past year, I’ve completed internships as a Full Stack Developer and Web Developer, 
-              where I worked on real-time projects using HTML, CSS, JavaScript, Java, MongoDB, and MySQL.
-               I’ve independently built projects like a Language Translation Web App and a Weather Application, 
-               both of which reflect my enthusiasm for creating responsive and user-friendly web experiences.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {['JavaScript','Node.js', 'Postman','MongoDB','Express','Java'].map((tech) => (
-                <span
-                  key={tech}
-                  className="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium hover:bg-blue-200 transition-colors"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
+        {/* Horizontal Editorial Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start">
+          {/* Left Column: Bold Display Headline with Lime Highlight */}
+          <div className="lg:col-span-5 about-heading">
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-[var(--text)] tracking-tight leading-[1.1]">
+              A developer who <br />
+              enjoys building <br />
+              <span className="bg-[#B7F52B] text-black px-2.5 py-0.5 rounded-lg inline-block mt-1">
+                real solutions.
+              </span>
+            </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-6">
-            {highlights.map((item, index) => (
-              <div
-                key={index}
-                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-              >
-                <div className="mb-4">{item.icon}</div>
-                <h3 className="text-xl font-semibold text-slate-800 mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-slate-600">
-                  {item.description}
-                </p>
-              </div>
-            ))}
+          {/* Middle Column: Detailed Introduction & Link */}
+          <div className="lg:col-span-3 flex flex-col justify-between pt-1 about-narrative">
+            <p className="text-[var(--text-muted)] text-[14px] leading-relaxed mb-6">
+              I’m a Full Stack Developer at Ratnam Solutions Private Limited focused on building scalable,
+              high-performance web applications with modern architectures, clean engineering principles, and measurable business impact.
+            </p>
+            <a
+              href="#experience"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--text)] hover:text-[#84be39] transition-colors group w-fit"
+            >
+              <span>More about me</span>
+              <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+          </div>
+
+          {/* Right Column: 2x2 Information Cards */}
+          <div className="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 gap-3.5 about-cards-grid">
+            {/* Card 1: Education */}
+            <GraduationCard />
+
+            {/* Card 2: Current Role */}
+            <DeveloperCard />
+
+            {/* Card 3: Location */}
+            <JourneyCard />
+
+            {/* Card 4: Employment Status */}
+            <TimelineCard />
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default About;
+}

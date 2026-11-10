@@ -1,3 +1,751 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  font-family: 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #f3f4f6;
+  background-color: #0f1216;
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Default theme variables: Dark (intended portfolio theme) */
+  --bg: #0f1216;
+  --bg-card: #161b22;
+  --bg-subtle: #1c222b;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text: #f3f4f6;
+  --text-muted: #9aa1ad;
+  --lime: #b7f52b;
+  --lime-glow: rgba(183, 245, 43, 0.24);
+  --mono: 'DM Mono', monospace;
+  scroll-behavior: smooth;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0f1216;
+  --bg-card: #161b22;
+  --bg-subtle: #1c222b;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text: #f3f4f6;
+  --text-muted: #9aa1ad;
+  --lime: #b7f52b;
+  --lime-glow: rgba(183, 245, 43, 0.24);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f7f4ee;
+  --bg-card: #ffffff;
+  --bg-subtle: #f0ece3;
+  --border: rgba(18, 21, 26, 0.08);
+  --border-strong: rgba(18, 21, 26, 0.16);
+  --text: #12151a;
+  --text-muted: #676d78;
+  --lime: #b7f52b;
+  --lime-glow: rgba(183, 245, 43, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Ensure fixed sticky header (80px) does not obscure anchor targets */
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+/* Accessible, high-contrast focus rings for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 3px;
+}
+
+/* Comprehensive reduced motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background-color: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ========================================================
+   UNIQUE INDIVIDUAL SKILL ANIMATIONS (On Hover & Focus)
+   ======================================================== */
+
+.skill-card {
+  transition: transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              border-color 300ms ease,
+              box-shadow 300ms ease;
+  will-change: transform;
+}
+
+.skill-card:hover,
+.skill-card:focus-visible {
+  transform: translateY(-4px) !important;
+  border-color: var(--skill-border, var(--border-strong)) !important;
+  box-shadow: 0 10px 28px -6px var(--skill-glow, rgba(183, 245, 43, 0.22)),
+              0 0 14px 0 var(--skill-glow, rgba(183, 245, 43, 0.14)) !important;
+}
+
+.skill-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* 1. React: Atom-like orbital movement with rotating electron paths & scale surge */
+  .skill-card[data-skill='React']:hover .skill-icon,
+  .skill-card[data-skill='React']:focus-visible .skill-icon {
+    animation: react-atom-surge 800ms cubic-bezier(0.34, 1.56, 0.64, 1) 1;
+    transform-origin: center center;
+  }
+  .skill-card[data-skill='React']:hover .react-orbits,
+  .skill-card[data-skill='React']:focus-visible .react-orbits {
+    animation: react-orbital-spin 800ms cubic-bezier(0.4, 0, 0.2, 1) 1;
+    transform-origin: center center;
+  }
+  .skill-card[data-skill='React']:hover .react-nucleus,
+  .skill-card[data-skill='React']:focus-visible .react-nucleus {
+    animation: react-nucleus-glow 800ms ease-in-out 1;
+  }
+
+  /* 2. Next.js: Subtle 3D flip with a smooth perspective effect */
+  .skill-card[data-skill='Next.js']:hover .skill-icon,
+  .skill-card[data-skill='Next.js']:focus-visible .skill-icon {
+    animation: nextjs-3d-flip 750ms cubic-bezier(0.2, 0.8, 0.2, 1) 1;
+  }
+
+  /* 3. Node.js: Hexagon pulse with a green energy glow */
+  .skill-card[data-skill='Node.js']:hover .skill-icon,
+  .skill-card[data-skill='Node.js']:focus-visible .skill-icon {
+    animation: nodejs-hex-pulse 650ms cubic-bezier(0.34, 1.56, 0.64, 1) 1;
+  }
+
+  /* 4. Java: Rising sparks with a subtle vertical movement */
+  .skill-card[data-skill='Java']:hover .skill-icon,
+  .skill-card[data-skill='Java']:focus-visible .skill-icon {
+    animation: java-cup-rise 750ms cubic-bezier(0.25, 1, 0.5, 1) 1;
+  }
+  .skill-card[data-skill='Java']:hover .java-spark,
+  .skill-card[data-skill='Java']:focus-visible .java-spark {
+    animation: java-spark-float 750ms ease-out 1;
+  }
+
+  /* 5. Spring Boot: Spring-like bouncing and compression */
+  .skill-card[data-skill='Spring Boot']:hover .skill-icon,
+  .skill-card[data-skill='Spring Boot']:focus-visible .skill-icon {
+    animation: spring-squash-bounce 650ms cubic-bezier(0.28, 0.84, 0.42, 1) 1;
+    transform-origin: center bottom;
+  }
+
+  /* 6. MongoDB: Leaf gently sways and grows */
+  .skill-card[data-skill='MongoDB']:hover .skill-icon,
+  .skill-card[data-skill='MongoDB']:focus-visible .skill-icon {
+    animation: mongo-leaf-sway 750ms ease-in-out 1;
+    transform-origin: 50% 90%;
+  }
+
+  /* 7. Vibe Coding: Multiple sparkles appear and disappear with staggered timing */
+  .skill-card[data-skill='Vibe Coding']:hover .skill-icon,
+  .skill-card[data-skill='Vibe Coding']:focus-visible .skill-icon {
+    animation: vibe-container-burst 750ms cubic-bezier(0.34, 1.56, 0.64, 1) 1;
+    transform-origin: center center;
+  }
+  .skill-card[data-skill='Vibe Coding']:hover .vibe-sparkle-center,
+  .skill-card[data-skill='Vibe Coding']:focus-visible .vibe-sparkle-center {
+    animation: vibe-center-pulse 650ms ease-in-out 1;
+    transform-origin: 12px 12px;
+  }
+  .skill-card[data-skill='Vibe Coding']:hover .vibe-sparkle-top,
+  .skill-card[data-skill='Vibe Coding']:focus-visible .vibe-sparkle-top {
+    animation: vibe-sparkle-pop 600ms ease-in-out 1;
+    transform-origin: 21px 4px;
+  }
+  .skill-card[data-skill='Vibe Coding']:hover .vibe-sparkle-bottom,
+  .skill-card[data-skill='Vibe Coding']:focus-visible .vibe-sparkle-bottom {
+    animation: vibe-sparkle-pop 700ms ease-in-out 1;
+    animation-delay: 150ms;
+    transform-origin: 4px 18px;
+  }
+
+  /* 8. Prompt Engineering: Terminal typing effect with a blinking cursor */
+  .skill-card[data-skill='Prompt Engineering']:hover .skill-icon,
+  .skill-card[data-skill='Prompt Engineering']:focus-visible .skill-icon {
+    animation: prompt-box-surge 750ms cubic-bezier(0.2, 0.8, 0.2, 1) 1;
+    transform-origin: center center;
+  }
+  .skill-card[data-skill='Prompt Engineering']:hover .prompt-chevron,
+  .skill-card[data-skill='Prompt Engineering']:focus-visible .prompt-chevron {
+    animation: prompt-chevron-type 700ms ease-out 1;
+  }
+  .skill-card[data-skill='Prompt Engineering']:hover .prompt-cursor,
+  .skill-card[data-skill='Prompt Engineering']:focus-visible .prompt-cursor {
+    animation: prompt-cursor-blink 800ms steps(1, end) 1;
+  }
+
+  /* 9. TypeScript: Icon performs a quick 3D tilt and settles back */
+  .skill-card[data-skill='TypeScript']:hover .skill-icon,
+  .skill-card[data-skill='TypeScript']:focus-visible .skill-icon {
+    animation: ts-3d-tilt 650ms cubic-bezier(0.2, 0.8, 0.2, 1) 1;
+    transform-origin: center center;
+  }
+
+  /* 10. AI Workflows: Connected nodes illuminate sequentially, simulating a workflow */
+  .skill-card[data-skill='AI Workflows']:hover .skill-icon,
+  .skill-card[data-skill='AI Workflows']:focus-visible .skill-icon {
+    animation: workflow-surge 800ms cubic-bezier(0.2, 0.8, 0.2, 1) 1;
+    transform-origin: center center;
+  }
+  .skill-card[data-skill='AI Workflows']:hover .workflow-node-top,
+  .skill-card[data-skill='AI Workflows']:focus-visible .workflow-node-top {
+    animation: workflow-step-1 800ms ease-out 1;
+  }
+  .skill-card[data-skill='AI Workflows']:hover .workflow-link,
+  .skill-card[data-skill='AI Workflows']:focus-visible .workflow-link {
+    animation: workflow-step-2 800ms ease-out 1;
+  }
+  .skill-card[data-skill='AI Workflows']:hover .workflow-node-left,
+  .skill-card[data-skill='AI Workflows']:hover .workflow-node-right,
+  .skill-card[data-skill='AI Workflows']:focus-visible .workflow-node-left,
+  .skill-card[data-skill='AI Workflows']:focus-visible .workflow-node-right {
+    animation: workflow-step-3 800ms ease-out 1;
+  }
+
+  /* 11. Tailwind CSS: Cyan wave-like movement around the icon */
+  .skill-card[data-skill='Tailwind CSS']:hover .skill-icon,
+  .skill-card[data-skill='Tailwind CSS']:focus-visible .skill-icon {
+    animation: tailwind-cyan-wave 750ms cubic-bezier(0.37, 0, 0.63, 1) 1;
+    transform-origin: center center;
+  }
+
+  /* 12. Git: Branch lines draw progressively with a subtle node-pulse effect */
+  .skill-card[data-skill='Git']:hover .skill-icon,
+  .skill-card[data-skill='Git']:focus-visible .skill-icon {
+    animation: git-branch-flow 700ms cubic-bezier(0.2, 0.8, 0.2, 1) 1;
+    transform-origin: center center;
+  }
+}
+
+/* ========================================================
+   KEYFRAMES FOR INDIVIDUAL SKILL ANIMATIONS
+   ======================================================== */
+@keyframes react-atom-surge {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(0, 216, 254, 0)); }
+  40% { transform: scale(1.24); filter: drop-shadow(0 0 16px rgba(0, 216, 254, 0.95)); }
+  75% { transform: scale(1.08); filter: drop-shadow(0 0 8px rgba(0, 216, 254, 0.6)); }
+  100% { transform: scale(1); filter: none; }
+}
+
+@keyframes react-orbital-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.15); stroke-width: 1.25; }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes react-nucleus-glow {
+  0%, 100% { transform: scale(1); filter: none; }
+  50% { transform: scale(1.6); filter: drop-shadow(0 0 8px #00D8FE); }
+}
+
+@keyframes nextjs-3d-flip {
+  0% { transform: perspective(350px) rotateY(0deg) scale(1); }
+  45% { transform: perspective(350px) rotateY(180deg) scale(1.26); filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.9)); }
+  80% { transform: perspective(350px) rotateY(340deg) scale(1.06); filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4)); }
+  100% { transform: perspective(350px) rotateY(360deg) scale(1); filter: none; }
+}
+
+@keyframes nodejs-hex-pulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(83, 158, 67, 0)); }
+  30% { transform: scale(1.3); filter: drop-shadow(0 0 20px rgba(83, 158, 67, 1)); }
+  60% { transform: scale(0.94); filter: drop-shadow(0 0 8px rgba(83, 158, 67, 0.5)); }
+  85% { transform: scale(1.08); filter: drop-shadow(0 0 4px rgba(83, 158, 67, 0.3)); }
+  100% { transform: scale(1); filter: none; }
+}
+
+@keyframes java-cup-rise {
+  0% { transform: translateY(0) scale(1); }
+  35% { transform: translateY(-8px) scale(1.2); filter: drop-shadow(0 8px 18px rgba(231, 111, 0, 0.8)); }
+  70% { transform: translateY(-2px) scale(1.05); }
+  100% { transform: translateY(0) scale(1); filter: none; }
+}
+
+@keyframes java-spark-float {
+  0% { transform: translateY(0) scale(1); opacity: 0.7; }
+  45% { transform: translateY(-10px) scale(1.45); opacity: 1; filter: drop-shadow(0 -4px 12px rgba(231, 111, 0, 1)); }
+  80% { transform: translateY(-3px) scale(1.1); opacity: 0.9; }
+  100% { transform: translateY(0) scale(1); opacity: 0.8; filter: none; }
+}
+
+@keyframes spring-squash-bounce {
+  0% { transform: scale(1, 1) translateY(0); }
+  20% { transform: scale(1.4, 0.65) translateY(6px); }
+  45% { transform: scale(0.78, 1.38) translateY(-12px); filter: drop-shadow(0 6px 18px rgba(109, 179, 63, 0.9)); }
+  70% { transform: scale(1.15, 0.88) translateY(2px); filter: drop-shadow(0 2px 8px rgba(109, 179, 63, 0.5)); }
+  85% { transform: scale(0.95, 1.05) translateY(-2px); }
+  100% { transform: scale(1, 1) translateY(0); filter: none; }
+}
+
+@keyframes mongo-leaf-sway {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-24deg) scale(1.24); filter: drop-shadow(-4px 0 12px rgba(19, 170, 82, 0.75)); }
+  55% { transform: rotate(18deg) scale(1.28); filter: drop-shadow(4px 0 16px rgba(19, 170, 82, 0.9)); }
+  80% { transform: rotate(-6deg) scale(1.1); filter: drop-shadow(0 0 6px rgba(19, 170, 82, 0.4)); }
+  100% { transform: rotate(0deg) scale(1); filter: none; }
+}
+
+@keyframes vibe-container-burst {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(183, 245, 43, 0)); }
+  45% { transform: scale(1.25); filter: drop-shadow(0 0 18px rgba(183, 245, 43, 0.95)); }
+  80% { transform: scale(1.08); filter: drop-shadow(0 0 8px rgba(183, 245, 43, 0.4)); }
+  100% { transform: scale(1); filter: none; }
+}
+
+@keyframes vibe-center-pulse {
+  0% { transform: scale(1) rotate(0deg); }
+  45% { transform: scale(1.3) rotate(22deg); filter: drop-shadow(0 0 14px #B7F52B); }
+  80% { transform: scale(1.05) rotate(-5deg); }
+  100% { transform: scale(1) rotate(0deg); filter: none; }
+}
+
+@keyframes vibe-sparkle-pop {
+  0% { transform: scale(0.2); opacity: 0; }
+  45% { transform: scale(1.85) rotate(60deg); opacity: 1; filter: drop-shadow(0 0 12px #B7F52B); }
+  80% { transform: scale(1.15) rotate(15deg); opacity: 0.95; }
+  100% { transform: scale(1); opacity: 1; filter: none; }
+}
+
+@keyframes prompt-box-surge {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(0, 216, 254, 0)); }
+  35% { transform: scale(1.22); filter: drop-shadow(0 0 16px rgba(0, 216, 254, 0.9)); }
+  75% { transform: scale(1.06); filter: drop-shadow(0 0 6px rgba(0, 216, 254, 0.4)); }
+  100% { transform: scale(1); filter: none; }
+}
+
+@keyframes prompt-chevron-type {
+  0% { transform: translateX(-6px) scale(0.9); opacity: 0.3; }
+  40% { transform: translateX(6px) scale(1.35); opacity: 1; filter: drop-shadow(0 0 10px #00D8FE); }
+  75% { transform: translateX(1px) scale(1.05); opacity: 1; }
+  100% { transform: translateX(0) scale(1); filter: none; }
+}
+
+@keyframes prompt-cursor-blink {
+  0%, 25%, 65%, 100% { opacity: 1; transform: scaleX(1.4); filter: drop-shadow(0 0 8px #00D8FE); }
+  15%, 45%, 85% { opacity: 0; transform: scaleX(1); filter: none; }
+}
+
+@keyframes ts-3d-tilt {
+  0% { transform: perspective(350px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1); }
+  30% { transform: perspective(350px) rotateX(24deg) rotateY(-28deg) rotateZ(-4deg) scale(1.26); filter: drop-shadow(-6px 8px 18px rgba(49, 120, 198, 0.9)); }
+  65% { transform: perspective(350px) rotateX(-10deg) rotateY(10deg) rotateZ(2deg) scale(1.08); filter: drop-shadow(-2px 4px 8px rgba(49, 120, 198, 0.5)); }
+  85% { transform: perspective(350px) rotateX(3deg) rotateY(-3deg) rotateZ(0deg) scale(1.02); }
+  100% { transform: perspective(350px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1); filter: none; }
+}
+
+@keyframes workflow-surge {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(168, 85, 247, 0)); }
+  35% { transform: scale(1.22); filter: drop-shadow(0 0 16px rgba(168, 85, 247, 0.9)); }
+  75% { transform: scale(1.06); filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.4)); }
+  100% { transform: scale(1); filter: none; }
+}
+
+@keyframes workflow-step-1 {
+  0% { transform: scale(1); opacity: 0.6; }
+  30% { transform: scale(1.85); opacity: 1; filter: drop-shadow(0 0 14px #A855F7); }
+  60% { transform: scale(1.1); opacity: 0.95; }
+  100% { transform: scale(1); opacity: 1; filter: none; }
+}
+
+@keyframes workflow-step-2 {
+  0%, 20% { opacity: 0.3; }
+  45% { opacity: 1; stroke: #D8B4FE; stroke-width: 3.5; filter: drop-shadow(0 0 10px #A855F7); }
+  80%, 100% { opacity: 1; stroke: currentColor; filter: none; }
+}
+
+@keyframes workflow-step-3 {
+  0%, 45% { opacity: 0.3; }
+  70% { opacity: 1; stroke: #F3E8FF; stroke-width: 4.5; filter: drop-shadow(0 0 14px #A855F7); }
+  100% { opacity: 1; stroke: currentColor; filter: none; }
+}
+
+@keyframes tailwind-cyan-wave {
+  0% { transform: translateY(0) skewX(0deg) scale(1); }
+  25% { transform: translateY(-7px) skewX(-14deg) scale(1.24); filter: drop-shadow(0 6px 18px rgba(6, 182, 212, 0.95)); }
+  50% { transform: translateY(4px) skewX(10deg) scale(1.06); filter: drop-shadow(0 2px 8px rgba(6, 182, 212, 0.5)); }
+  75% { transform: translateY(-2px) skewX(-4deg) scale(1.12); }
+  100% { transform: translateY(0) skewX(0deg) scale(1); filter: none; }
+}
+
+@keyframes git-branch-flow {
+  0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 0 rgba(240, 80, 50, 0)); }
+  35% { transform: scale(1.3) rotate(-20deg); filter: drop-shadow(0 0 20px rgba(240, 80, 50, 1)); }
+  65% { transform: scale(0.96) rotate(8deg); filter: drop-shadow(0 0 8px rgba(240, 80, 50, 0.6)); }
+  85% { transform: scale(1.1) rotate(-4deg); filter: drop-shadow(0 0 4px rgba(240, 80, 50, 0.3)); }
+  100% { transform: scale(1) rotate(0deg); filter: none; }
+}
+
+/* Cursor Click Ripple Keyframes */
+@keyframes cursor-click-ripple {
+  0% {
+    transform: translate3d(-50%, -50%, 0) scale(0.5);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) scale(2.4);
+    opacity: 0;
+  }
+}
+
+.cursor-ripple-active {
+  animation: cursor-click-ripple 350ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-ripple-active {
+    animation: none !important;
+  }
+  .skill-card:hover,
+  .skill-card:focus-visible {
+    transform: none !important;
+  }
+  .skill-card * {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   Animated Profile Cards (About Section)
+   ========================================================================== */
+
+/* 1. Graduation Card */
+.grad-cap-rest {
+  transform: translateY(0) rotate(0deg) scale(1);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.grad-cap-animated {
+  animation: grad-cap-drop 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes grad-cap-drop {
+  0% {
+    transform: translateY(-28px) rotate(-14deg) scale(0.85);
+    opacity: 0.6;
+  }
+  45% {
+    transform: translateY(2.5px) rotate(2deg) scale(1.04);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(-1.5px) rotate(-1deg) scale(0.98);
+  }
+  85% {
+    transform: translateY(0.8px) rotate(0.5deg) scale(1.01);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.grad-tassel-swing {
+  animation: grad-tassel-swing 0.85s ease-in-out forwards;
+}
+
+@keyframes grad-tassel-swing {
+  0% { transform: rotate(-25deg); }
+  45% { transform: rotate(18deg); }
+  70% { transform: rotate(-10deg); }
+  85% { transform: rotate(5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes grad-burst {
+  0% {
+    transform: translate(0, 0) scale(0);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  60% {
+    transform: translate(var(--pdx), var(--pdy)) scale(1.2);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(calc(var(--pdx) * 1.3), calc(var(--pdy) * 1.3 + 3px)) scale(0);
+    opacity: 0;
+  }
+}
+
+.grad-p1 { --pdx: -16px; --pdy: -12px; animation: grad-burst 0.75s 0.32s ease-out forwards; }
+.grad-p2 { --pdx: 0px; --pdy: -18px; animation: grad-burst 0.75s 0.3s ease-out forwards; }
+.grad-p3 { --pdx: 18px; --pdy: -12px; animation: grad-burst 0.75s 0.34s ease-out forwards; }
+.grad-p4 { --pdx: 20px; --pdy: 0px; animation: grad-burst 0.75s 0.36s ease-out forwards; }
+.grad-p5 { --pdx: 14px; --pdy: 10px; animation: grad-burst 0.75s 0.38s ease-out forwards; }
+.grad-p6 { --pdx: -18px; --pdy: 2px; animation: grad-burst 0.75s 0.33s ease-out forwards; }
+.grad-p7 { --pdx: -12px; --pdy: 12px; animation: grad-burst 0.75s 0.35s ease-out forwards; }
+.grad-p8 { --pdx: 6px; --pdy: -16px; animation: grad-burst 0.75s 0.28s ease-out forwards; }
+
+/* 2. Developer Card */
+.dev-typing-left {
+  animation: dev-type-left 0.22s ease-in-out infinite;
+}
+.dev-typing-right {
+  animation: dev-type-right 0.24s ease-in-out infinite;
+}
+
+@keyframes dev-type-left {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes dev-type-right {
+  0%, 100% { transform: translateY(-2px); }
+  50% { transform: translateY(0); }
+}
+
+.dev-code-scrolling line {
+  animation: dev-code-pulse 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes dev-code-pulse {
+  0% { opacity: 0.5; stroke-dasharray: 6 3; }
+  100% { opacity: 1; stroke-dasharray: 14 2; }
+}
+
+@keyframes dev-symbol-float {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.95;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-18px) translateX(var(--drift, 0px)) scale(1.05);
+    opacity: 0;
+  }
+}
+
+.dev-symbol-1 { --drift: -4px; animation: dev-symbol-float 1.2s 0.1s ease-out infinite; }
+.dev-symbol-2 { --drift: 3px; animation: dev-symbol-float 1.3s 0.45s ease-out infinite; }
+.dev-symbol-3 { --drift: -2px; animation: dev-symbol-float 1.25s 0.8s ease-out infinite; }
+
+/* 3. Motorcycle Journey Card */
+.journey-moto-travel {
+  animation: moto-journey 1.1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.journey-moto-parked {
+  transform: translate(84px, 0px);
+  transition: transform 0.6s ease-out;
+}
+
+@keyframes moto-journey {
+  0% { transform: translate(-30px, 4px); }
+  25% { transform: translate(0px, 6px); }
+  60% { transform: translate(50px, -2px); }
+  85% { transform: translate(82px, 0px); }
+  95% { transform: translate(85px, -0.5px); }
+  100% { transform: translate(84px, 0px); }
+}
+
+.journey-wheel-spin {
+  animation: wheel-spin 1.1s linear forwards;
+}
+
+@keyframes wheel-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(720deg); }
+}
+
+.journey-pin-arrive {
+  animation: pin-arrive 1.15s ease-out forwards;
+}
+
+@keyframes pin-arrive {
+  0%, 65% { transform: translateY(0) scale(1); }
+  75% { transform: translateY(-5px) scale(1.15); }
+  88% { transform: translateY(1.5px) scale(0.95); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes radar-expand {
+  0% { transform: scale(0.4); opacity: 0; }
+  65% { opacity: 0; }
+  75% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.journey-radar-ring.ring-1 {
+  animation: radar-expand 1.4s 0.75s ease-out forwards;
+  transform-origin: 7px 18px;
+}
+.journey-radar-ring.ring-2 {
+  animation: radar-expand 1.4s 0.95s ease-out forwards;
+  transform-origin: 7px 18px;
+}
+
+.journey-road-flow {
+  animation: road-dash 1.1s linear forwards;
+}
+
+@keyframes road-dash {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -24; }
+}
+
+/* 4. Timeline Card */
+.timeline-calendar-page-flip {
+  animation: calendar-flip 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes calendar-flip {
+  0% { transform: rotateX(0deg); opacity: 1; }
+  50% { transform: rotateX(-90deg); opacity: 0.8; }
+  100% { transform: rotateX(-180deg); opacity: 0; }
+}
+
+.timeline-packet-travel {
+  animation: packet-travel 0.85s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+}
+
+.timeline-packet-rest {
+  transform: translate(100px, 0px);
+  transition: transform 0.6s ease-out;
+}
+
+@keyframes packet-travel {
+  0% { transform: translate(0px, 0px) scale(0.8); }
+  50% { transform: translate(50px, 0px) scale(1.2); }
+  100% { transform: translate(100px, 0px) scale(1); }
+}
+
+.timeline-beacon-ring {
+  animation: beacon-pulse 1.8s ease-out infinite;
+  transform-origin: 0px 0px;
+}
+
+.timeline-beacon-ring.ring-delayed {
+  animation-delay: 0.9s;
+}
+
+@keyframes beacon-pulse {
+  0% { transform: scale(0.8); opacity: 0.9; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Reduced Motion Overrides for About Cards */
+@media (prefers-reduced-motion: reduce) {
+  .grad-cap-animated,
+  .grad-tassel-swing,
+  .grad-particle,
+  .dev-typing-left,
+  .dev-typing-right,
+  .dev-code-scrolling line,
+  .dev-symbol,
+  .journey-moto-travel,
+  .journey-wheel-spin,
+  .journey-pin-arrive,
+  .journey-radar-ring,
+  .journey-road-flow,
+  .timeline-calendar-page-flip,
+  .timeline-packet-travel,
+  .timeline-beacon-ring {
+    animation: none !important;
+    transform: none !important;
+  }
+  .journey-moto-parked,
+  .timeline-packet-rest {
+    transition: none !important;
+  }
+}
+
+:root[data-theme='light'] .skill-card[data-skill='Next.js'] {
+  --skill-glow: rgba(0, 0, 0, 0.16);
+  --skill-border: rgba(0, 0, 0, 0.35);
+}
+
+/* Skip Link */
+.skip-link {
+  position: fixed;
+  top: -60px;
+  left: 20px;
+  z-index: 100;
+  padding: 10px 16px;
+  background-color: var(--lime);
+  color: #000;
+  font-weight: 700;
+  border-radius: 8px;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 20px;
+}
+
+/* Runtime Error Fallback */
+.runtime-error {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+.runtime-error h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 12px 0;
+}
+.runtime-error button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  border-radius: 9999px;
+  border: 0;
+  background-color: var(--lime);
+  color: #000;
+  font-weight: 700;
+  cursor: pointer;
+}

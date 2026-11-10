@@ -1,0 +1,6 @@
+# Robots.txt for Lokesh Prasanth Developer Portfolio
+User-agent: *
+Allow: /
+
+# Sitemap placeholder: Update with final custom domain upon deployment
+Sitemap: https://example.com/sitemap.xml
